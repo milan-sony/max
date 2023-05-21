@@ -2,6 +2,7 @@ import pyaudio
 import speech_recognition as sr
 from time import sleep
 from playsound import playsound
+from notifypy import Notify
 
 def listen_for_hotword():
   recognizer = sr.Recognizer()
@@ -29,10 +30,17 @@ def wakeup_assistant():
   while not done:
     try:
       with sr.Microphone() as mic:
-        print("I am here, How can I help you?")
+        # print("I am here, How can I help you?")
+        notification = Notify()
+        notification.application_name = "MAX"
+        notification.title = "I'm here"
+        notification.message = "How can I help you?"
+        notification.icon = "./icon.png"
+        notification.audio = "./rec_start.wav"
+        notification.send()
         recognizer.adjust_for_ambient_noise(mic, duration=0.2)
         recognizer.dynamic_energy_threshold = True
-        playsound('./rec_start.wav')
+        # playsound('./rec_start.wav')
         print("Speak...")
         audio = recognizer.listen(mic)
         recog_audio= recognizer.recognize_google(audio)
