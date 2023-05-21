@@ -4,3 +4,9 @@ https://stackoverflow.com/questions/52283840/i-cant-install-pyaudio-on-windows-h
 Find all the microphone names and device index in Python using PyAudio
 https://dev.to/picovoice/day-15-recording-audio-with-python-without-pyaudio-32jb
 https://www.codespeedy.com/print-mic-name-device-id-in-python/
+
+Easy Speech Recognition in Python with PyAudio and Pocketsphinx
+https://www.codesofinterest.com/2017/03/python-speech-recognition-pocketsphinx.html
+
+Energy Threshold Calibration in Speech Recognition
+https://www.codesofinterest.com/2017/04/energy-threshold-calibration-in-speech-recognition.html
