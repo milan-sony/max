@@ -1,1 +1,6 @@
+Install pyaudio in windows
 https://stackoverflow.com/questions/52283840/i-cant-install-pyaudio-on-windows-how-to-solve-error-microsoft-visual-c-14
+
+Find all the microphone names and device index in Python using PyAudio
+https://dev.to/picovoice/day-15-recording-audio-with-python-without-pyaudio-32jb
+https://www.codespeedy.com/print-mic-name-device-id-in-python/
