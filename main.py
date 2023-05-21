@@ -3,7 +3,7 @@ import speech_recognition as sr
 from time import sleep
 from playsound import playsound
 from notifypy import Notify
-
+from speech_recognition.exceptions import RequestError
 def listen_for_hotword():
   recognizer = sr.Recognizer()
   done = False
@@ -23,6 +23,8 @@ def listen_for_hotword():
           listen_for_hotword()
     except sr.UnknownValueError:
       listen_for_hotword()
+    except RequestError:
+      print("Connection Error! Please check your connection")
 
 def wakeup_assistant():
   recognizer = sr.Recognizer()
@@ -50,6 +52,7 @@ def wakeup_assistant():
         listen_for_hotword()
     except sr.UnknownValueError:
       listen_for_hotword()
+    raise 
 
 while True:
   listen_for_hotword()
