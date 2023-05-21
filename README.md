@@ -1,2 +1,2 @@
 # max
-My PC Assistant
+My PC Voice Assistant
