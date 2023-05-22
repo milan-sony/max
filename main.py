@@ -58,10 +58,15 @@ def wakeup_assistant():
         print("Speak...")
         audio = recognizer.listen(mic)
         recog_audio= recognizer.recognize_google(audio, language='en-US')
-        hotword = recog_audio.lower()
-        print("You have said: "+hotword)
-        playsound('./rec_stop.wav')
-        listen_for_hotword()
+        query = recog_audio.lower()
+        print("You have said: "+query)
+        if "open youtube" in query:
+          command = query.replace("open youtube","Opening Youtube")
+          from functions import open_youtube
+          open_youtube(command)
+          listen_for_hotword()
+        else:
+          listen_for_hotword()
     except sr.UnknownValueError:
       listen_for_hotword()
 
