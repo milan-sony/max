@@ -4,6 +4,12 @@ from time import sleep
 from playsound import playsound
 from notifypy import Notify
 from speech_recognition.exceptions import RequestError
+import pyttsx3
+
+# python tts
+ttsengine = pyttsx3.init()
+
+# listen for hotword
 def listen_for_hotword():
   recognizer = sr.Recognizer()
   done = False
@@ -12,7 +18,7 @@ def listen_for_hotword():
       with sr.Microphone() as mic:
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
-        playsound('./rec_start.wav')
+        # playsound('./rec_start.wav')
         print("Listening...")
         audio = recognizer.listen(mic)
         recog_audio= recognizer.recognize_google(audio)
@@ -24,6 +30,8 @@ def listen_for_hotword():
     except sr.UnknownValueError:
       listen_for_hotword()
     except RequestError:
+      ttsengine.say("Connection Error! Please check your connection")
+      ttsengine.runAndWait()
       print("Connection Error! Please check your connection")
 
 def wakeup_assistant():
@@ -38,11 +46,13 @@ def wakeup_assistant():
         notification.title = "I'm here"
         notification.message = "How can I help you?"
         notification.icon = "./icon.png"
-        notification.audio = "./rec_start.wav"
+        # notification.audio = "./rec_start.wav"
         notification.send()
+        ttsengine.say("I'm here. How can I help you?")
+        ttsengine.runAndWait()
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
-        # playsound('./rec_start.wav')
+        playsound('./rec_start.wav')
         print("Speak...")
         audio = recognizer.listen(mic)
         recog_audio= recognizer.recognize_google(audio)
