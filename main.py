@@ -10,6 +10,8 @@ def ttspeech(speech_text):
   ttsengine = pyttsx3.init()
   rate = ttsengine.getProperty('rate')
   ttsengine.setProperty('rate', rate+15)
+  voice = ttsengine.getProperty('voices')
+  ttsengine.setProperty('voice', voice[0].id)
   ttsengine.say(speech_text)
   ttsengine.runAndWait()
 
@@ -22,7 +24,6 @@ def listen_for_hotword():
       with sr.Microphone() as mic:
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
-        # playsound('./rec_start.wav')
         print("Listening...")
         audio = recognizer.listen(mic)
         recog_audio= recognizer.recognize_google(audio, language='en-US')
@@ -43,7 +44,6 @@ def wakeup_assistant():
   while not done:
     try:
       with sr.Microphone() as mic:
-        # print("I am here, How can I help you?")
         notification = Notify()
         notification.application_name = "MAX"
         notification.title = "I'm here"
@@ -59,18 +59,18 @@ def wakeup_assistant():
         audio = recognizer.listen(mic)
         recog_audio= recognizer.recognize_google(audio, language='en-US')
         query = recog_audio.lower()
-        print("You have said: "+query)
-        if "open youtube" in query:
-          command = query.replace("open youtube","Opening Youtube")
-          from functions import open_youtube
-          open_youtube(command)
-          listen_for_hotword()
-        else:
-          listen_for_hotword()
+        query_process(query)
     except sr.UnknownValueError:
       listen_for_hotword()
 
+def query_process(query):
+  if "open youtube" in query:
+    command = query.replace("open youtube", "opening youtube")
+    from functions import open_youtube
+    open_youtube(command)
+    listen_for_hotword()
+  else:
+    listen_for_hotword()
+
 while True:
   listen_for_hotword()
-
-
