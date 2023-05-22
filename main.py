@@ -26,7 +26,7 @@ def listen_for_hotword():
         # playsound('./rec_start.wav')
         print("Listening...")
         audio = recognizer.listen(mic)
-        recog_audio= recognizer.recognize_google(audio, language='en-us')
+        recog_audio= recognizer.recognize_google(audio, language='en-US')
         hotword = recog_audio.lower()
         if "max" or "hey max" or "heymax" or "hay max" or "haymax" or "hello max" or "hellomax" or "wakup max" or "wakeupmax" in hotword:
           wakeup_assistant()
@@ -58,7 +58,7 @@ def wakeup_assistant():
         playsound('./rec_start.wav')
         print("Speak...")
         audio = recognizer.listen(mic)
-        recog_audio= recognizer.recognize_google(audio)
+        recog_audio= recognizer.recognize_google(audio, language='en-US')
         hotword = recog_audio.lower()
         print("You have said: "+hotword)
         playsound('./rec_stop.wav')
