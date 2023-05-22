@@ -10,3 +10,6 @@ https://www.codesofinterest.com/2017/03/python-speech-recognition-pocketsphinx.h
 
 Energy Threshold Calibration in Speech Recognition
 https://www.codesofinterest.com/2017/04/energy-threshold-calibration-in-speech-recognition.html
+
+python text to speech
+https://pyttsx3.readthedocs.io/en/latest/engine.html#examples
