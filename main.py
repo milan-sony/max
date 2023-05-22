@@ -10,7 +10,7 @@ def listen_for_hotword():
   while not done:
     try:
       with sr.Microphone() as mic:
-        recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+        recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
         playsound('./rec_start.wav')
         print("Listening...")
@@ -40,7 +40,7 @@ def wakeup_assistant():
         notification.icon = "./icon.png"
         notification.audio = "./rec_start.wav"
         notification.send()
-        recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+        recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
         # playsound('./rec_start.wav')
         print("Speak...")
