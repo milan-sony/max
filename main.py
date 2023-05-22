@@ -8,7 +8,7 @@ import pyttsx3
 # python tts
 def ttspeech(speech_text):
   ttsengine = pyttsx3.init()
-  ttsengine.setProperty('rate', 150)
+  ttsengine.setProperty('rate', 200)
   voice = ttsengine.getProperty('voices')
   ttsengine.setProperty('voice', voice[0].id)
   ttsengine.say(speech_text)
