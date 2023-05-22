@@ -4,6 +4,7 @@ from playsound import playsound
 from notifypy import Notify
 from speech_recognition.exceptions import RequestError
 import pyttsx3
+from time import sleep
 
 # python tts
 def ttspeech(speech_text):
@@ -53,8 +54,16 @@ def wakeup_assistant():
         ttspeech("I'm here. How can I help you?")
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
-        playsound('./rec_start.wav')
+        # playsound('./rec_start.wav')
+        sleep(3)
         print("Speak...")
+        notification = Notify()
+        notification.application_name = "MAX"
+        notification.title = "Speak"
+        notification.message = "Speak into the mic..."
+        notification.icon = "./icon.png"
+        notification.audio = "./rec_start.wav"
+        notification.send()
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         recognized_text = recognized_speech.lower()
