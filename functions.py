@@ -5,8 +5,7 @@ from time import sleep
 # python tts
 def ttspeech(speech_text):
   ttsengine = pyttsx3.init()
-  rate = ttsengine.getProperty('rate')
-  ttsengine.setProperty('rate', rate+15)
+  ttsengine.setProperty('rate', 150)
   voice = ttsengine.getProperty('voices')
   ttsengine.setProperty('voice', voice[0].id)
   ttsengine.say(speech_text)
