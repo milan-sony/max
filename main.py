@@ -1,6 +1,5 @@
 import pyaudio
 import speech_recognition as sr
-from time import sleep
 from playsound import playsound
 from notifypy import Notify
 from speech_recognition.exceptions import RequestError
