@@ -7,7 +7,12 @@ from speech_recognition.exceptions import RequestError
 import pyttsx3
 
 # python tts
-ttsengine = pyttsx3.init()
+def ttspeech(speech_text):
+  ttsengine = pyttsx3.init()
+  rate = ttsengine.getProperty('rate')
+  ttsengine.setProperty('rate', rate+15)
+  ttsengine.say(speech_text)
+  ttsengine.runAndWait()
 
 # listen for hotword
 def listen_for_hotword():
@@ -21,7 +26,7 @@ def listen_for_hotword():
         # playsound('./rec_start.wav')
         print("Listening...")
         audio = recognizer.listen(mic)
-        recog_audio= recognizer.recognize_google(audio)
+        recog_audio= recognizer.recognize_google(audio, language='en-us')
         hotword = recog_audio.lower()
         if "max" or "hey max" or "heymax" or "hay max" or "haymax" or "hello max" or "hellomax" or "wakup max" or "wakeupmax" in hotword:
           wakeup_assistant()
@@ -30,8 +35,7 @@ def listen_for_hotword():
     except sr.UnknownValueError:
       listen_for_hotword()
     except RequestError:
-      ttsengine.say("Connection Error! Please check your connection")
-      ttsengine.runAndWait()
+      ttspeech("You are not connected to the internet, Please try again later")
       print("Connection Error! Please check your connection")
 
 def wakeup_assistant():
@@ -46,10 +50,9 @@ def wakeup_assistant():
         notification.title = "I'm here"
         notification.message = "How can I help you?"
         notification.icon = "./icon.png"
-        # notification.audio = "./rec_start.wav"
+        notification.audio = "./rec_start.wav"
         notification.send()
-        ttsengine.say("I'm here. How can I help you?")
-        ttsengine.runAndWait()
+        ttspeech("I'm here. How can I help you?")
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
         playsound('./rec_start.wav')
@@ -62,7 +65,6 @@ def wakeup_assistant():
         listen_for_hotword()
     except sr.UnknownValueError:
       listen_for_hotword()
-    raise 
 
 while True:
   listen_for_hotword()
