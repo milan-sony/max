@@ -16,7 +16,7 @@ def ttspeech(speech_text):
   ttsengine.runAndWait()
 
 # listen for hotword
-def listen_for_hotword():
+def wakeup_hotword():
   recognizer = sr.Recognizer()
   done = False
   while not done:
@@ -26,14 +26,14 @@ def listen_for_hotword():
         recognizer.dynamic_energy_threshold = True
         print("Listening...")
         audio = recognizer.listen(mic)
-        recog_audio= recognizer.recognize_google(audio, language='en-US')
-        hotword = recog_audio.lower()
+        recognized_speech = recognizer.recognize_google(audio, language='en-US')
+        hotword = recognized_speech.lower()
         if "max" or "hey max" or "heymax" or "hay max" or "haymax" or "hello max" or "hellomax" or "wakup max" or "wakeupmax" in hotword:
           wakeup_assistant()
         else:
-          listen_for_hotword()
+          wakeup_hotword()
     except sr.UnknownValueError:
-      listen_for_hotword()
+      wakeup_hotword()
     except RequestError:
       ttspeech("You are not connected to the internet, Please try again later")
       print("Connection Error! Please check your connection")
@@ -57,20 +57,20 @@ def wakeup_assistant():
         playsound('./rec_start.wav')
         print("Speak...")
         audio = recognizer.listen(mic)
-        recog_audio= recognizer.recognize_google(audio, language='en-US')
-        query = recog_audio.lower()
-        query_process(query)
+        recognized_speech = recognizer.recognize_google(audio, language='en-US')
+        recognized_text = recognized_speech.lower()
+        hotword_detect(recognized_text)
     except sr.UnknownValueError:
-      listen_for_hotword()
+      wakeup_hotword()
 
-def query_process(query):
-  if "open youtube" in query:
-    command = query.replace("open youtube", "opening youtube")
+def hotword_detect(hotword):
+  if "open youtube" in hotword:
+    command = hotword.replace("open youtube", "opening youtube")
     from functions import open_youtube
     open_youtube(command)
-    listen_for_hotword()
+    wakeup_hotword()
   else:
-    listen_for_hotword()
+    wakeup_hotword()
 
 while True:
-  listen_for_hotword()
+  wakeup_hotword()
