@@ -18,8 +18,17 @@ def ttspeech(speech_text):
   ttsengine.say(speech_text)
   ttsengine.runAndWait()
 
-# open youtube
 def open_youtube(command):
   ttspeech(command)
   url = "https://www.youtube.com/"
+  open_url(url)
+
+def open_whatsapp(command):
+  ttspeech(command)
+  url = "https://web.whatsapp.com/"
+  open_url(url)
+
+def open_instagram(command):
+  ttspeech(command)
+  url = "https://www.instagram.com/"
   open_url(url)
