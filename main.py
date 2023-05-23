@@ -79,13 +79,13 @@ def hotword_detect(hotword):
       from functions import open_youtube
       open_youtube(command)
       wakeup_hotword()
-    elif "whatsapp" in hotword:
-      command = hotword.replace("whatsapp", "opening whatsapp")
+    elif "open whatsapp" in hotword:
+      command = hotword.replace("open whatsapp", "opening whatsapp")
       from functions import open_whatsapp
       open_whatsapp(command)
       wakeup_hotword()
-    elif "instagram" in hotword:
-      command = hotword.replace("instagram", "opening instagram")
+    elif "open instagram" in hotword:
+      command = hotword.replace("open instagram", "opening instagram")
       from functions import open_instagram
       open_instagram(command)
       wakeup_hotword()
