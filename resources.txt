@@ -1,18 +1,21 @@
-Install pyaudio in windows
+install pyaudio in windows
 https://stackoverflow.com/questions/52283840/i-cant-install-pyaudio-on-windows-how-to-solve-error-microsoft-visual-c-14
 
-Find all the microphone names and device index in Python using PyAudio
+find all the microphone names and device index in Python using PyAudio
 https://dev.to/picovoice/day-15-recording-audio-with-python-without-pyaudio-32jb
 https://www.codespeedy.com/print-mic-name-device-id-in-python/
 
-Easy Speech Recognition in Python with PyAudio and Pocketsphinx
+easy Speech Recognition in Python with PyAudio and Pocketsphinx
 https://www.codesofinterest.com/2017/03/python-speech-recognition-pocketsphinx.html
 
-Energy Threshold Calibration in Speech Recognition
+energy Threshold Calibration in Speech Recognition
 https://www.codesofinterest.com/2017/04/energy-threshold-calibration-in-speech-recognition.html
 
 python text to speech
 https://pyttsx3.readthedocs.io/en/latest/engine.html#examples
 
 open urls in new tab
-# https://docs.python.org/3/library/webbrowser.html#webbrowser.open_new_tab
+https://docs.python.org/3/library/webbrowser.html#webbrowser.open_new_tab
+
+open/close applications
+https://pypi.org/project/appopener/#:~:text=AppOpener%20is%20the%20python%20library,App%20Name%20and%20App%20Id.&text=Visit%20official%20documentation%20of%20AppOpener,available%20at%20the%20Github%20repository.
