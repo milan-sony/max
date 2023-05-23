@@ -1,13 +1,8 @@
 import pyttsx3
 from playsound import playsound
 from time import sleep
-import webbrowser 
-
-def open_url(url):
-  # https://docs.python.org/3/library/webbrowser.html#webbrowser.open_new_tab
-  webbrowser.open_new_tab(url)
-  sleep(1)
-  playsound('./rec_stop.wav')
+import webbrowser
+import pywhatkit as pywkt
 
 # python tts
 def ttspeech(speech_text):
@@ -17,6 +12,15 @@ def ttspeech(speech_text):
   ttsengine.setProperty('voice', voice[0].id)
   ttsengine.say(speech_text)
   ttsengine.runAndWait()
+
+def search_google(search_item):
+  ttspeech("Searching" +search_item+ "on google")
+  pywkt.search(search_item)
+
+def open_url(url):
+  webbrowser.open_new_tab(url)
+  sleep(1)
+  playsound('./rec_stop.wav')
 
 def open_youtube(command):
   ttspeech(command)
