@@ -1,3 +1,4 @@
+appopener==1.7
 notifypy==1.0.3.0
 playsound==1.2.2
 pvrecorder==1.1.1
