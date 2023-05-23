@@ -13,3 +13,6 @@ https://www.codesofinterest.com/2017/04/energy-threshold-calibration-in-speech-r
 
 python text to speech
 https://pyttsx3.readthedocs.io/en/latest/engine.html#examples
+
+open urls in new tab
+# https://docs.python.org/3/library/webbrowser.html#webbrowser.open_new_tab
