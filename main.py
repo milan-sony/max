@@ -28,7 +28,7 @@ def wakeup_hotword():
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         hotword = recognized_speech.lower()
-        if "max" or "hey max" or "heymax" or "hay max" or "haymax" or "hello max" or "hellomax" or "wakup max" or "wakeupmax" in hotword:
+        if "max" in hotword:
           wakeup_assistant()
         else:
           wakeup_hotword()
@@ -67,17 +67,35 @@ def wakeup_assistant():
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         recognized_text = recognized_speech.lower()
+        print(recognized_text)
         hotword_detect(recognized_text)
     except sr.UnknownValueError:
       wakeup_hotword()
 
 def hotword_detect(hotword):
-  if "open youtube" in hotword:
-    command = hotword.replace("open youtube", "opening youtube")
-    from functions import open_youtube
-    open_youtube(command)
-    wakeup_hotword()
-  else:
+  try:
+    if "open youtube" in hotword:
+      command = hotword.replace("open youtube", "opening youtube")
+      from functions import open_youtube
+      open_youtube(command)
+      wakeup_hotword()
+    elif "whatsapp" in hotword:
+      command = hotword.replace("whatsapp", "opening whatsapp")
+      from functions import open_whatsapp
+      open_whatsapp(command)
+      wakeup_hotword()
+    elif "instagram" in hotword:
+      command = hotword.replace("instagram", "opening instagram")
+      from functions import open_instagram
+      open_instagram(command)
+      wakeup_hotword()
+    else:
+      not_found = hotword
+      with open("check_command.txt", "a") as file:
+        file.write(not_found +"\n")
+      ttspeech("sorry I dont understand that")
+      wakeup_hotword()
+  except:
     wakeup_hotword()
 
 while True:
