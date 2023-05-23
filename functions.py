@@ -1,6 +1,13 @@
 import pyttsx3
 from playsound import playsound
 from time import sleep
+import webbrowser 
+
+def open_url(url):
+  # https://docs.python.org/3/library/webbrowser.html#webbrowser.open_new_tab
+  webbrowser.open_new_tab(url)
+  sleep(1)
+  playsound('./rec_stop.wav')
 
 # python tts
 def ttspeech(speech_text):
@@ -14,6 +21,5 @@ def ttspeech(speech_text):
 # open youtube
 def open_youtube(command):
   ttspeech(command)
-  print("hello from youtube")
-  sleep(1)
-  playsound('./rec_stop.wav')
+  url = "https://www.youtube.com/"
+  open_url(url)
