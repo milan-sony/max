@@ -5,6 +5,7 @@ from notifypy import Notify
 from speech_recognition.exceptions import RequestError
 import pyttsx3
 from time import sleep
+import pywhatkit as pywkt
 
 # python tts
 def ttspeech(speech_text):
@@ -47,7 +48,7 @@ def wakeup_assistant():
         notification = Notify()
         notification.application_name = "MAX"
         notification.title = "I'm here"
-        notification.message = "How can I help you?"
+        notification.message = "How can I help you?\n\nPlease wait for speak notification"
         notification.icon = "./icon.png"
         notification.audio = "./rec_start.wav"
         notification.send()
@@ -72,9 +73,43 @@ def wakeup_assistant():
     except sr.UnknownValueError:
       wakeup_hotword()
 
+def voice_input():
+  recognizer = sr.Recognizer()
+  done = False
+  while not done:
+    try:
+      with sr.Microphone() as mic:
+        recognizer.adjust_for_ambient_noise(mic, duration=0.5)
+        recognizer.dynamic_energy_threshold = True
+        notification = Notify()
+        notification.application_name = "MAX"
+        notification.title = "Speak"
+        notification.message = "Speak into the mic..."
+        notification.icon = "./icon.png"
+        notification.audio = "./rec_start.wav"
+        notification.send()
+        audio = recognizer.listen(mic)
+        recognized_speech = recognizer.recognize_google(audio, language='en-US')
+        search_item = recognized_speech.lower()
+        from functions import search_google
+        search_google(search_item)
+        wakeup_hotword()
+    except sr.UnknownValueError:
+      ttspeech("Sorry I dont here that")
+      wakeup_hotword()
+
+
 def hotword_detect(hotword):
   try:
-    if "open youtube" in hotword:
+    if "google" in hotword:
+      search_item = hotword.replace("search", "").replace("on", "").replace("google", "")
+      from functions import search_google
+      search_google(search_item)
+      wakeup_hotword()
+    if "search on google" in hotword:
+      ttspeech("What do you want to search?")
+      voice_input()
+    elif "open youtube" in hotword:
       command = hotword.replace("open youtube", "opening youtube")
       from functions import open_youtube
       open_youtube(command)
@@ -90,10 +125,11 @@ def hotword_detect(hotword):
       open_instagram(command)
       wakeup_hotword()
     else:
-      not_found = hotword
+      item_not_found = hotword
       with open("check_command.txt", "a") as file:
-        file.write(not_found +"\n")
-      ttspeech("sorry I dont understand that")
+        file.write(item_not_found +"\n")
+      ttspeech("Here is what I found on the web.")
+      pywkt.search(item_not_found)
       wakeup_hotword()
   except:
     wakeup_hotword()
