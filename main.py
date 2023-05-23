@@ -29,7 +29,7 @@ def wakeup_hotword():
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         hotword = recognized_speech.lower()
-        if "max" in hotword:
+        if ("max" in hotword) or ("hey max" in hotword) or ("hay max" in hotword) or ("heymax" in hotword) or ("haymax" in hotword):
           wakeup_assistant()
         else:
           wakeup_hotword()
@@ -98,31 +98,35 @@ def voice_input():
       ttspeech("Sorry I dont here that")
       wakeup_hotword()
 
-
 def hotword_detect(hotword):
   try:
-    if "google" in hotword:
+    if ("google" in hotword):
       search_item = hotword.replace("search", "").replace("on", "").replace("google", "")
       from functions import search_google
       search_google(search_item)
       wakeup_hotword()
-    if "search on google" in hotword:
+    if ("search on google" in hotword):
       ttspeech("What do you want to search?")
       voice_input()
-    elif "open youtube" in hotword:
-      command = hotword.replace("open youtube", "opening youtube")
-      from functions import open_youtube
-      open_youtube(command)
+    elif ("open youtube" in hotword):
+      command = hotword.replace("open", "")
+      from functions import open_in_browser
+      open_in_browser(command)
       wakeup_hotword()
-    elif "open whatsapp" in hotword:
-      command = hotword.replace("open whatsapp", "opening whatsapp")
-      from functions import open_whatsapp
-      open_whatsapp(command)
+    elif ("open whatsapp" in hotword) or ("open whatsappweb" in hotword) or ("open whatsapp web" in hotword):
+      command = hotword.replace("open", "")
+      from functions import open_in_browser
+      open_in_browser(command)
       wakeup_hotword()
-    elif "open instagram" in hotword:
-      command = hotword.replace("open instagram", "opening instagram")
-      from functions import open_instagram
-      open_instagram(command)
+    elif ("open instagram" in hotword):
+      command = hotword.replace("open", "")
+      from functions import open_in_browser
+      open_in_browser(command)
+      wakeup_hotword()
+    elif ("open notepad" in hotword):
+      command = hotword.replace("open", "")
+      from functions import open_applications
+      open_applications(command)
       wakeup_hotword()
     else:
       item_not_found = hotword
