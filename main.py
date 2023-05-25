@@ -106,7 +106,7 @@ def voice_input():
 # hotword detection
 def hotword_detect(hotword):
   try:
-    if ("google" in hotword):
+    if ("search on google" in hotword):
       ttspeech("What do you want to search?", 200)
       voice_input()
     elif ("open youtube" in hotword):
@@ -134,9 +134,9 @@ def hotword_detect(hotword):
       with open("check_command.txt", "a") as file:
         file.write(item_not_found +"\n")
         ttspeech("Here is what I found on the web.", 200)
-        from functions import search_on_google
-        search_on_google(item_not_found)
-        wakeup_hotword()
+      from functions import default_search
+      default_search(item_not_found)
+      wakeup_hotword()
   except:
     wakeup_hotword()
 
