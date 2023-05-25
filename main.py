@@ -1,14 +1,11 @@
 import pyaudio
 import speech_recognition as sr
-from playsound import playsound
 from notifypy import Notify
 from speech_recognition.exceptions import RequestError
 import pyttsx3
 from time import sleep
-from googlesearch import search
 from datetime import date
 import time
-from datetime import datetime
 
 # tts
 def ttspeech(speech_text, rate):
@@ -138,7 +135,6 @@ def hotword_detect(hotword):
       dt = current_date.strftime("%d %B %Y")
       current_time = time.localtime()
       formatted_time = time.strftime("%I:%M:%S %p", current_time)
-
       with open("check_command.txt", "a") as file:
         file.write("Date: "+dt+"\n"+"Time: "+formatted_time+"\n"+"Command: "+item_not_found+"\n"+"-----------------------------------"+"\n")
         ttspeech("Here is what I found on the web.", 200)
