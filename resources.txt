@@ -20,5 +20,13 @@ https://docs.python.org/3/library/webbrowser.html#webbrowser.open_new_tab
 open/close applications
 https://pypi.org/project/appopener/#:~:text=AppOpener%20is%20the%20python%20library,App%20Name%20and%20App%20Id.&text=Visit%20official%20documentation%20of%20AppOpener,available%20at%20the%20Github%20repository.
 
-google search
-https://pypi.org/project/googlesearch-python/
+required modules
+appopener==1.7
+notify-py==0.3.41
+playsound==1.2.2
+pvrecorder==1.1.1
+PyAudio==0.2.11
+pyttsx3==2.90
+pywhatkit==5.4
+SpeechRecognition==3.10.0
+
