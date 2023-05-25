@@ -5,9 +5,9 @@ from notifypy import Notify
 from speech_recognition.exceptions import RequestError
 import pyttsx3
 from time import sleep
-from googlesearch import search as gsearch
+from googlesearch import search
 
-# python tts
+# tts
 def ttspeech(speech_text, rate):
   ttsengine = pyttsx3.init()
   speech_rate  = rate
@@ -16,6 +16,18 @@ def ttspeech(speech_text, rate):
   ttsengine.setProperty('voice', voice[0].id)
   ttsengine.say(speech_text)
   ttsengine.runAndWait()
+
+# desktop notification
+def desktop_notification(title, message):
+  notification_title = str(title)
+  notification_message = str(message)
+  notification = Notify()
+  notification.application_name = "MAX"
+  notification.title = notification_title
+  notification.message = notification_message
+  notification.icon = "./icon.png"
+  notification.audio = "./rec_start.wav"
+  notification.send()
 
 # listen for hotword
 def wakeup_hotword():
@@ -40,32 +52,26 @@ def wakeup_hotword():
       ttspeech("Connection Error, Make sure you are connected to the Internet!", 150)
       print("Connection Error! Please check your connection")
 
+# wake up assistant after the hotword is detected
 def wakeup_assistant():
   recognizer = sr.Recognizer()
   done = False
   while not done:
     try:
       with sr.Microphone() as mic:
-        notification = Notify()
-        notification.application_name = "MAX"
-        notification.title = "I'm here"
-        notification.message = "How can I help you?\n\nPlease wait for speak notification"
-        notification.icon = "./icon.png"
-        notification.audio = "./rec_start.wav"
-        notification.send()
+        desktop_notification(
+          "I'm here",
+          "How can I help you?\n\nPlease wait for speak notification"
+        )
         ttspeech("I'm here. How can I help you?", 200)
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
-        # playsound('./rec_start.wav')
         sleep(3)
         print("Speak...")
-        notification = Notify()
-        notification.application_name = "MAX"
-        notification.title = "Speak"
-        notification.message = "Speak into the mic..."
-        notification.icon = "./icon.png"
-        notification.audio = "./rec_start.wav"
-        notification.send()
+        desktop_notification(
+          "Speak",
+          "Speak into the mic..."
+        )
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         recognized_text = recognized_speech.lower()
@@ -74,6 +80,7 @@ def wakeup_assistant():
     except sr.UnknownValueError:
       wakeup_hotword()
 
+# voice search input
 def voice_input():
   recognizer = sr.Recognizer()
   done = False
@@ -82,31 +89,24 @@ def voice_input():
       with sr.Microphone() as mic:
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
-        notification = Notify()
-        notification.application_name = "MAX"
-        notification.title = "Speak"
-        notification.message = "Speak into the mic..."
-        notification.icon = "./icon.png"
-        notification.audio = "./rec_start.wav"
-        notification.send()
+        desktop_notification(
+          "Speak",
+          "Speak into the mic..."
+        )
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         search_item = recognized_speech.lower()
-        from functions import search_google
-        search_google(search_item)
+        from functions import search_on_google
+        search_on_google(search_item)
         wakeup_hotword()
     except sr.UnknownValueError:
       ttspeech("Sorry I dont here that", 200)
       wakeup_hotword()
 
+# hotword detection
 def hotword_detect(hotword):
   try:
     if ("google" in hotword):
-      search_item = hotword.replace("search", "").replace("on", "").replace("at", "").replace("google", "")
-      from functions import search_google
-      search_google(search_item)
-      wakeup_hotword()
-    if ("search on google" in hotword):
       ttspeech("What do you want to search?", 200)
       voice_input()
     elif ("open youtube" in hotword):
@@ -134,7 +134,9 @@ def hotword_detect(hotword):
       with open("check_command.txt", "a") as file:
         file.write(item_not_found +"\n")
         ttspeech("Here is what I found on the web.", 200)
-        gsearch(item_not_found)
+        from functions import search_on_google
+        search_on_google(item_not_found)
+        wakeup_hotword()
   except:
     wakeup_hotword()
 

@@ -13,7 +13,7 @@ def ttspeech(speech_text):
   ttsengine.say(speech_text)
   ttsengine.runAndWait()
 
-def search_google(search_item):
+def search_on_google(search_item):
   ttspeech("Searching" +search_item+ "on google")
   pywkt.search(search_item)
 
