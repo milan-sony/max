@@ -5,12 +5,13 @@ from notifypy import Notify
 from speech_recognition.exceptions import RequestError
 import pyttsx3
 from time import sleep
-import pywhatkit as pywkt
+from googlesearch import search as gsearch
 
 # python tts
-def ttspeech(speech_text):
+def ttspeech(speech_text, rate):
   ttsengine = pyttsx3.init()
-  ttsengine.setProperty('rate', 200)
+  speech_rate  = rate
+  ttsengine.setProperty(f'rate', int(speech_rate))
   voice = ttsengine.getProperty('voices')
   ttsengine.setProperty('voice', voice[0].id)
   ttsengine.say(speech_text)
@@ -36,7 +37,7 @@ def wakeup_hotword():
     except sr.UnknownValueError:
       wakeup_hotword()
     except RequestError:
-      ttspeech("You are not connected to the internet, Please try again later")
+      ttspeech("Connection Error, Make sure you are connected to the Internet!", 150)
       print("Connection Error! Please check your connection")
 
 def wakeup_assistant():
@@ -52,7 +53,7 @@ def wakeup_assistant():
         notification.icon = "./icon.png"
         notification.audio = "./rec_start.wav"
         notification.send()
-        ttspeech("I'm here. How can I help you?")
+        ttspeech("I'm here. How can I help you?", 200)
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
         # playsound('./rec_start.wav')
@@ -95,18 +96,18 @@ def voice_input():
         search_google(search_item)
         wakeup_hotword()
     except sr.UnknownValueError:
-      ttspeech("Sorry I dont here that")
+      ttspeech("Sorry I dont here that", 200)
       wakeup_hotword()
 
 def hotword_detect(hotword):
   try:
     if ("google" in hotword):
-      search_item = hotword.replace("search", "").replace("on", "").replace("google", "")
+      search_item = hotword.replace("search", "").replace("on", "").replace("at", "").replace("google", "")
       from functions import search_google
       search_google(search_item)
       wakeup_hotword()
     if ("search on google" in hotword):
-      ttspeech("What do you want to search?")
+      ttspeech("What do you want to search?", 200)
       voice_input()
     elif ("open youtube" in hotword):
       command = hotword.replace("open", "")
@@ -132,9 +133,8 @@ def hotword_detect(hotword):
       item_not_found = hotword
       with open("check_command.txt", "a") as file:
         file.write(item_not_found +"\n")
-      ttspeech("Here is what I found on the web.")
-      pywkt.search(item_not_found)
-      wakeup_hotword()
+        ttspeech("Here is what I found on the web.", 200)
+        gsearch(item_not_found)
   except:
     wakeup_hotword()
 

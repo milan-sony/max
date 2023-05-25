@@ -19,3 +19,6 @@ https://docs.python.org/3/library/webbrowser.html#webbrowser.open_new_tab
 
 open/close applications
 https://pypi.org/project/appopener/#:~:text=AppOpener%20is%20the%20python%20library,App%20Name%20and%20App%20Id.&text=Visit%20official%20documentation%20of%20AppOpener,available%20at%20the%20Github%20repository.
+
+google search
+https://pypi.org/project/googlesearch-python/
