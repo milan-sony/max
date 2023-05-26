@@ -109,26 +109,13 @@ def hotword_detect(hotword):
     if ("search on google" in hotword):
       ttspeech("What do you want to search?", 200)
       voice_input()
-    elif ("open youtube" in hotword):
-      command = hotword.replace("open", "")
-      from functions import open_in_browser
-      open_in_browser(command)
+    elif("open" in hotword):
+      command = hotword.replace("open","").replace(" ","")
+      from functions import open_appications
+      open_appications(command)
       wakeup_hotword()
-    elif ("open whatsapp" in hotword) or ("open whatsappweb" in hotword) or ("open whatsapp web" in hotword):
-      command = hotword.replace("open", "")
-      from functions import open_in_browser
-      open_in_browser(command)
-      wakeup_hotword()
-    elif ("open instagram" in hotword):
-      command = hotword.replace("open", "")
-      from functions import open_in_browser
-      open_in_browser(command)
-      wakeup_hotword()
-    elif ("open notepad" in hotword):
-      command = hotword.replace("open", "")
-      from functions import open_applications
-      open_applications(command)
-      wakeup_hotword()
+    elif("close" in hotword):
+      command = hotword.replace("close", "").replace(" ","")
     else:
       item_not_found = hotword
       current_date = date.today()
