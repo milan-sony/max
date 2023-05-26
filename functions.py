@@ -4,7 +4,9 @@ from time import sleep
 import webbrowser
 import pywhatkit as pywkt
 from AppOpener import open, close
+import os
 
+# text to speech
 def ttspeech(speech_text):
   ttsengine = pyttsx3.init()
   ttsengine.setProperty('rate', 160)
@@ -13,36 +15,47 @@ def ttspeech(speech_text):
   ttsengine.say(speech_text)
   ttsengine.runAndWait()
 
+# default search
 def default_search(search_item):
   pywkt.search(search_item)
   playsound("./rec_stop.wav")
 
+# search on google
 def search_on_google(search_item):
   ttspeech("Searching" +search_item+ "on google")
   pywkt.search(search_item)
 
-def open_urls(url):
-  webbrowser.open_new_tab(url)
-  sleep(1)
-  playsound('./rec_stop.wav')
+system_applications = [
+  "notepad",
+  "chrome",
+  "settings",
+  "alaram",
+]
+web_applications = [
+  "youtube",
+  "instagram",
+  "facebook",
+  "whatsapp",
+]
 
-def open_applications(command):
-  ttspeech("Opening" +command)
-  open(command)
-  playsound('./rec_stop.wav')
-
-def open_in_browser(command):
-  if ("instagram" in command):
-    ttspeech("Opening" +command)
-    url = "https://www.instagram.com/"
-    open_urls(url)
-  elif ("youtube" in command):
-    ttspeech("Opening" +command)
-    url = "https://www.youtube.com/"
-    open_urls(url)
-  elif ("whatsapp" in command) or ("whatsappweb" in command) or ("whatsapp web" in command):
-    ttspeech("Opening" +command)
-    url = "https://web.whatsapp.com/"
-    open_urls(url)
+# open an application
+def open_appications(command):
+  print(command)
+  if command in system_applications:
+    os.system(command)
+  elif command in web_applications:
+    url = f"https://www.{command}.com/"
+    webbrowser.open_new_tab(url)
   else:
-    pass
+    ttspeech("Sorry app not found")
+
+# close an applicaton
+def close_applications(command):
+  print(command)
+  if command in system_applications:
+    os.system(f'wmic process where name="{command}" delete')
+  elif command in web_applications:
+    url = f"https://www.{command}.com/"
+    webbrowser.open_new_tab(url)
+  else:
+    ttspeech("Sorry app not found")
