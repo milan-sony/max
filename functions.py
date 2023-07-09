@@ -5,6 +5,7 @@ import webbrowser
 import pywhatkit as pywkt
 from AppOpener import open, close
 import os
+import main
 
 # text to speech
 def ttspeech(speech_text):
@@ -19,11 +20,13 @@ def ttspeech(speech_text):
 def default_search(search_item):
   pywkt.search(search_item)
   playsound("./rec_stop.wav")
+  # main.wakeup_hotword()
 
 # search on google
 def search_on_google(search_item):
   ttspeech("Searching" +search_item+ "on google")
   pywkt.search(search_item)
+  # main.wakeup_hotword()
 
 system_applications = [
   "notepad",
@@ -48,6 +51,7 @@ def open_appications(command):
     webbrowser.open_new_tab(url)
   else:
     ttspeech("Sorry app not found")
+    # main.wakeup_hotword()
 
 # close an applicaton
 def close_applications(command):
@@ -59,3 +63,4 @@ def close_applications(command):
     webbrowser.open_new_tab(url)
   else:
     ttspeech("Sorry app not found")
+    # main.wakeup_hotword()
