@@ -6,6 +6,27 @@ import pyttsx3
 from time import sleep
 from datetime import date
 import time
+from tkinter import *
+import threading
+
+
+def show_popup():
+    # popup = tk.Toplevel()
+    popup = Tk()
+    popup.attributes("-topmost", 1)
+    popup.title("Voice Assistant Popup")
+    popup.geometry("300x100")
+    popup.config(bg="#6886C5")
+    popup.resizable(False, False)
+
+    label = Label(popup, text="Voice assistant is listening...")
+    label.pack(pady=20)
+
+    # Close the popup after 5 seconds
+    popup.after(5000, popup.destroy)
+
+    popup.mainloop()
+
 
 # tts
 def ttspeech(speech_text, rate):
@@ -36,10 +57,11 @@ def wakeup_hotword():
   while not done:
     try:
       with sr.Microphone() as mic:
-        recognizer.adjust_for_ambient_noise(mic, duration=0.5)
-        recognizer.dynamic_energy_threshold = True
+        # recognizer.adjust_for_ambient_noise(mic, duration=0.5)
+        recognizer.pause_threshold = 0.8
+        # recognizer.dynamic_energy_threshold = True
         print("Listening...")
-        audio = recognizer.listen(mic)
+        audio = recognizer.listen(mic, phrase_time_limit=5)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         hotword = recognized_speech.lower()
         if ("max" in hotword) or ("hey max" in hotword) or ("hay max" in hotword) or ("heymax" in hotword) or ("haymax" in hotword):
@@ -59,19 +81,20 @@ def wakeup_assistant():
   while not done:
     try:
       with sr.Microphone() as mic:
-        desktop_notification(
-          "I'm here",
-          "How can I help you?\n\nPlease wait for speak notification"
-        )
+        # desktop_notification(
+        #   "I'm here",
+        #   "How can I help you?\n\nPlease wait for speak notification"
+        # )
         ttspeech("I'm here. How can I help you?", 200)
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
         sleep(3)
         print("Speak...")
-        desktop_notification(
-          "Speak",
-          "Speak into the mic..."
-        )
+        # desktop_notification(
+        #   "Speak",
+        #   "Speak into the mic..."
+        # )
+        show_popup()
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         recognized_text = recognized_speech.lower()
@@ -89,10 +112,11 @@ def voice_input():
       with sr.Microphone() as mic:
         recognizer.adjust_for_ambient_noise(mic, duration=0.5)
         recognizer.dynamic_energy_threshold = True
-        desktop_notification(
-          "Speak",
-          "Speak into the mic..."
-        )
+        # desktop_notification(
+        #   "Speak",
+        #   "Speak into the mic..."
+        # )
+        show_popup()
         audio = recognizer.listen(mic)
         recognized_speech = recognizer.recognize_google(audio, language='en-US')
         search_item = recognized_speech.lower()
@@ -131,5 +155,7 @@ def hotword_detect(hotword):
   except:
     wakeup_hotword()
 
-while True:
-  wakeup_hotword()
+
+t1 = threading.Thread(target=wakeup_hotword)
+t1.start() 
+t1.join()
